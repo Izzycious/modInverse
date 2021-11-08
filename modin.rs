@@ -1,40 +1,32 @@
-// Function declaration takes in two parameters of type isize (The pointer-sized signed integer type.) 
+// Function declaration which takes in two parameters of type isize 
+// a representing an int whose multiplicative inverse to compute
+// b representing an int value is > 1
+fn mod_inverse(a: isize, b: isize) -> isize {
+  // Declaring a mutable variable x set equal to a tuple  that holds "b" and "a".
+  //let mut y = ... is avariable that counts algorithm step
+  let mut x = (b, a);
+  let mut y = (0, 1);
 
-//The size of this primitive is how many bytes it takes to reference any location in memory
-// a represents an integer whose multiplicative inverse is to be computed.
-// modulus represents an integer whose value is greater than 1
-fn egcd(mut x: isize, mut y:isize) -> (isize,isize,isize) {
-
-  // Declaring a mutable variable 
-  let (mut a0,mut a1,mut b0,mut b1) = (1,0,0,1);
-
-  //loop function allows the execution of code as long as the codition is true usin
-
-  while y != 0 {
-      // dbg!(x,y);
-      let (q,r)  = (x / y, x % y);
-      let (c, d) = ( a0 - q * a1, b0 - q * b1  ); 
-
-      x = y;
-      y = r;
-      a0 = a1;
-      a1 = c;
-      b0 = b1; 
-      b1 = d;
-
+  // for each iteration, a turple is created for x and y
+ 
+  while x.1 != 0 {
+    y = (y.1, y.0 - (x.0/x.1) * y.1);
+    x = (x.1, x.0 % x.1);
   }
-  (x, a0, b0)
+
+  //implementing thw euclidean algorithm
+ 
+  while y.0 < 0 {
+    y.0 += b;
+  }
+  y.0
 }
-
-    // Rust programs start with fn main()
-    // You put the code inside a block. It starts with { and ends with }
-
+// function declared
+ 
 fn main() {
-  let (gcd, a, b) = egcd(180,150);
 
-  // Print function in getting the extended euclidean algorithm output of 
-  println!("GCD: {}  {} and {}",
-  gcd, a, b);
-  
-  //30   1 and -1
+  //printing the value of the output
+  println!("{}", mod_inverse(12, 78))
+
+  // output 72
 }
